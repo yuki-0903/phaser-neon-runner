@@ -6,42 +6,60 @@ export class Preloader extends Scene
     {
         super('Preloader');
     }
-
-    init ()
-    {
-        //  We loaded this image in our Boot Scene, so we can display it here
-        this.add.image(512, 384, 'background');
-
-        //  A simple progress bar. This is the outline of the bar.
-        this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
-
-        //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-        const bar = this.add.rectangle(512-230, 384, 4, 28, 0xffffff);
-
-        //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
-        this.load.on('progress', (progress: number) => {
-
-            //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
-            bar.width = 4 + (460 * progress);
-
-        });
-    }
-
-    preload ()
-    {
-        //  Load the assets for the game - Replace with your own assets
-        this.load.setPath('assets');
-
-        this.load.image('logo', 'logo.png');
-        this.load.image('star', 'star.png');
-    }
-
     create ()
     {
-        //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
-        //  For example, you can define global animations here, so we can use them in other scenes.
+        // 体(cyan)
+        const g = this.make.graphics();
+        g.fillStyle(0x00f5ff);
+        g.fillRect(0, 0, 32, 40);
+        
+        // 足元(orange)
+        g.fillStyle(0xff6b35);
+        g.fillRect(0, 40, 32, 8);
 
-        //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
+        // 目（黒）                                    
+        g.fillStyle(0x000000);                           
+        g.fillRect(8, 10, 6, 6);
+        g.fillRect(18, 10, 6, 6);                        
+        
+        // 描画内容をテクスチャとして登録（32×48 px）    
+        g.generateTexture('player-tex', 32, 48);
+
+        g.destroy();
+
+        const g2 = this.make.graphics(); 
+        // hot-pink 矩形                                 
+        g2.fillStyle(0xff2d6b);                          
+        g2.fillRect(0, 0, 32, 64);                       
+                                                        
+        // ハイライト（白を薄く左端に）                  
+        g2.fillStyle(0xffffff, 0.3);
+        g2.fillRect(0, 0, 8, 64);                        
+                                                        
+        g2.generateTexture('obstacle-tex', 32, 64);    
+        g2.destroy();  
+
+        // ground-tex: 64×32 ダークタイル + cyan上端ライン                                   
+        const g3 = this.make.graphics();                 
+                                                        
+        g3.fillStyle(0x16213e);                          
+        g3.fillRect(0, 0, 64, 32);                     
+                                                        
+        // cyan上端ライン
+        g3.fillStyle(0x00f5ff);                        
+        g3.fillRect(0, 0, 64, 2);                        
+        
+        g3.generateTexture('ground-tex', 64, 32);        
+        g3.destroy();   
+                                                        
+        // ground-hitbox-tex: 4×4 白矩形
+        const g4 = this.make.graphics();                 
+                        
+        g4.fillStyle(0xffffff);                        
+        g4.fillRect(0, 0, 4, 4);
+                                                        
+        g4.generateTexture('ground-hitbox-tex', 4, 4);
+        g4.destroy(); 
         this.scene.start('MainMenu');
     }
 }

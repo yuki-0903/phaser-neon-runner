@@ -1,14 +1,9 @@
-import { GameObjects, Scene } from 'phaser';
+import { Scene } from 'phaser';
 
 import { EventBus } from '../EventBus';
 
 export class MainMenu extends Scene
 {
-    background: GameObjects.Image;
-    logo: GameObjects.Image;
-    title: GameObjects.Text;
-    logoTween: Phaser.Tweens.Tween | null;
-
     constructor ()
     {
         super('MainMenu');
@@ -16,61 +11,73 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.background = this.add.image(512, 384, 'background');
+        const bg = this.add.graphics();
+        bg.fillStyle(0x0a0a1a);
+        bg.fillRect(0, 0, 1024, 768);
 
-        this.logo = this.add.image(512, 300, 'logo').setDepth(100);
+        const titleText = this.add.text(512, -100, 'NEON RUNNER', {                    
+            fontFamily: 'Arial Black',                              
+            fontSize: 72,                                          
+            color: '#00f5ff',                                          
+            stroke: '#00f5ff',                                    
+            strokeThickness: 20                                     
+        }).setOrigin(0.5).setAlpha(0.4);
 
-        this.title = this.add.text(512, 460, 'Main Menu', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setOrigin(0.5).setDepth(100);
+        this.tweens.add({
+            targets: titleText,                                     
+            y: 200,     
+            duration: 800,                                        
+            ease: 'Bounce.Out'
+        }); 
 
+        const titleText2 = this.add.text(512, -100, 'NEON RUNNER', {
+            fontFamily: 'Arial Black',                            
+            fontSize: 72,
+            color: '#ffffff',                                       
+            stroke: '#00f5ff',
+            strokeThickness: 4                                      
+        }).setOrigin(0.5);
+
+        this.tweens.add({
+            targets: titleText2,                                     
+            y: 200,     
+            duration: 800,                                        
+            ease: 'Bounce.Out'
+        }); 
+
+        const startText = this.add.text(512, 450, "PRESS SPACE OR TAP TO PLAY",{
+            fontFamily: "Arial",
+            fontSize: 24,
+            color: "#ffffff"
+        }).setOrigin(0.5);
+
+        this.tweens.add({
+            targets: startText,
+            alpha: 0,
+            duration: 600,
+            yoyo: true,
+            repeat: -1
+        })
+
+        const StartGame = () => {
+            this.cameras.main.fadeOut(500, 0,0,0);
+            this.cameras.main.once("camerafadeoutcomplete", ()=> {
+                this.scene.start("Game")
+            })
+        }
+
+        this.input.keyboard!.once("keydown-SPACE", StartGame);
+        this.input.once("pointerdown", StartGame);
+
+         const best = localStorage.getItem("runner-highscore");
+        if(best) {
+            this.add.text(512, 500, `BEST: ${best}`, {
+                fontFamily: "Arial",
+                fontSize: 20,
+                color: "#ffd700"
+            }).setOrigin(0.5);
+        }
         EventBus.emit('current-scene-ready', this);
     }
-    
-    changeScene ()
-    {
-        if (this.logoTween)
-        {
-            this.logoTween.stop();
-            this.logoTween = null;
-        }
 
-        this.scene.start('Game');
-    }
-
-    moveLogo (vueCallback: ({ x, y }: { x: number, y: number }) => void)
-    {
-        if (this.logoTween)
-        {
-            if (this.logoTween.isPlaying())
-            {
-                this.logoTween.pause();
-            }
-            else
-            {
-                this.logoTween.play();
-            }
-        } 
-        else
-        {
-            this.logoTween = this.tweens.add({
-                targets: this.logo,
-                x: { value: 750, duration: 3000, ease: 'Back.easeInOut' },
-                y: { value: 80, duration: 1500, ease: 'Sine.easeOut' },
-                yoyo: true,
-                repeat: -1,
-                onUpdate: () => {
-                    if (vueCallback)
-                    {
-                        vueCallback({
-                            x: Math.floor(this.logo.x),
-                            y: Math.floor(this.logo.y)
-                        });
-                    }
-                }
-            });
-        }
-    }
 }
