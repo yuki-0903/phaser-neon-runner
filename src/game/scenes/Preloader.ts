@@ -31,18 +31,23 @@ export class Preloader extends Scene
         g2.generateTexture('obstacle-tex', 32, 64);    
         g2.destroy();  
 
-        // ground-tex: 64×32 ダークタイル + cyan上端ライン                                   
-        const g3 = this.make.graphics();                 
-                                                        
-        g3.fillStyle(0x16213e);                          
-        g3.fillRect(0, 0, 64, 32);                     
-                                                        
+        // ground-tex: 64×32 ダークタイル + cyan上端ライン
+        const g3 = this.make.graphics();
+
+        g3.fillStyle(0xe8c87a);
+        g3.fillRect(0, 0, 64, 32);
+
         // cyan上端ライン
-        g3.fillStyle(0x00f5ff);                        
-        g3.fillRect(0, 0, 64, 2);                        
-        
-        g3.generateTexture('ground-tex', 64, 32);        
-        g3.destroy();   
+        g3.fillStyle(0xe8c87a);
+        g3.fillRect(0, 0, 64, 2);
+
+        // 小石テクスチャ 
+        g3.fillStyle(0xd4b060);
+        g3.fillRect(10, 8, 4, 2); 
+        g3.fillRect(40, 10, 4, 2);
+
+        g3.generateTexture('ground-tex', 64, 32);
+        g3.destroy();
                                                         
         // ground-hitbox-tex: 4×4 白矩形
         const g4 = this.make.graphics();                 
