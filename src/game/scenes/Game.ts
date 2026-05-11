@@ -26,8 +26,8 @@ export class Game extends Scene
         this.speed = 300;
         this.isAlive = true;
 
-        this.add.image(512,384,"bg").setDepth(0);
-        this.bg = this.add.tileSprite(512, 384, 1024, 768,'bg').setDepth(0);   
+        // --- 背景（tileSprite でループスクロール）---
+        this.bg = this.add.tileSprite(512, 384, 1024, 768,'bg').setDepth(0);
 
 
         // --- 地面（見た目・スクロールする）---
@@ -106,7 +106,8 @@ export class Game extends Scene
         this.ground.tilePositionX += this.speed * delta / 1000;
 
 
-        this.bg.tilePositionX += this.speed * delta / 1000 * 0.2; 
+        // 背景を地面より遅くスクロール（0.2倍でパラレックス効果）
+        this.bg.tilePositionX += this.speed * delta / 1000 * 0.2;
 
         // 速度を徐々に上げる（最大800）
         this.speed = Math.min(800, this.speed + 15 * delta / 1000);

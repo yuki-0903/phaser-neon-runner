@@ -12,6 +12,7 @@ export class Preloader extends Scene
             frameWidth: 958,
             frameHeight: 960
         });
+        // 背景画像（1344×768px、tileSprite でループスクロール）
         this.load.image('bg', 'assets/bg/bg.png');
     }
     create ()
