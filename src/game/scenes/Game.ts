@@ -12,8 +12,7 @@ export class Game extends Scene
     private speed: number = 300;        // 現在の移動速度 (px/s)
     private isAlive: boolean = true;
     private spawnTimer: Phaser.Time.TimerEvent;
-    private bgOffset: number = 0;
-    private bgGraphics: Phaser.GameObjects.Graphics;
+    private bg: Phaser.GameObjects.TileSprite;
 
     constructor ()
     {
@@ -26,11 +25,10 @@ export class Game extends Scene
         this.score = 0;
         this.speed = 300;
         this.isAlive = true;
-        this.bgOffset = 0;
-        this.bgGraphics = null!;
 
-        // --- 背景 ---
-        this.drawBackground(0);
+        this.add.image(512,384,"bg").setDepth(0);
+        this.bg = this.add.tileSprite(512, 384, 1024, 768,'bg').setDepth(0);   
+
 
         // --- 地面（見た目・スクロールする）---
         this.ground = this.add.tileSprite(512, 734, 1024, 68,"ground-tex")
@@ -104,12 +102,11 @@ export class Game extends Scene
     update(_time: number, delta: number): void {
         if(!this.isAlive) return;
 
-        // パラレックス背景を更新
-        this.bgOffset += this.speed * delta / 1000;
-        this.drawBackground(this.bgOffset);
-
         // 地面をスクロール
         this.ground.tilePositionX += this.speed * delta / 1000;
+
+
+        this.bg.tilePositionX += this.speed * delta / 1000 * 0.2; 
 
         // 速度を徐々に上げる（最大800）
         this.speed = Math.min(800, this.speed + 15 * delta / 1000);
@@ -198,40 +195,4 @@ export class Game extends Scene
         });
     }
 
-    // 背景をパラレックスで描画（毎フレーム呼ばれる）
-    private drawBackground(offset: number): void {
-        if(this.bgGraphics) {
-            this.bgGraphics.clear();
-        } else {
-            this.bgGraphics = this.add.graphics().setDepth(0);
-        }
-
-        const g = this.bgGraphics;
-
-        // 背景塗りつぶし
-        g.fillStyle(0x0a0a1a);
-        g.fillRect(0,0,1024,768);
-
-        // 星（layer 1: 最も遅い）
-        g.fillStyle(0xffffff, 0.6);
-        for(let i = 0; i < 60; i++) {
-            const x = ((i * 137 + offset * 0.1) % 1024);
-            const y = (i * 73) % 400;
-            g.fillRect(x, y, 2,2);
-        }
-
-        // 山（layer 2）
-        g.fillStyle(0x16213e);
-        for(let i = 0; i < 8; i++) {
-            const x = (((i * 220 - offset * 0.3) % 1200) + 1200) % 1200 - 100; 
-            g.fillTriangle(x, 500, x + 150, 300, x + 300, 500);
-        }
-
-        // 丘（layer 3: 最も速い）
-        g.fillStyle(0x0f3460);
-        for (let i = 0; i < 10; i++) {
-            const x = (((i * 200 - offset * 0.6) % 1300) + 1300) % 1300 - 100;
-            g.fillTriangle(x, 580, x + 120, 450, x + 240, 580);
-        }
-    }
 }
