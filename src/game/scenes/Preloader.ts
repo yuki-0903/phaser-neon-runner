@@ -6,26 +6,16 @@ export class Preloader extends Scene
     {
         super('Preloader');
     }
+    preload () {
+        // 走り・ジャンプを1枚にまとめたスプライトシート（6x6=36フレーム、1フレーム 958×960px）
+        this.load.spritesheet("player", "assets/player/player.png",{
+            frameWidth: 958,
+            frameHeight: 960
+        });
+    }
     create ()
     {
-        // 体(cyan)
-        const g = this.make.graphics();
-        g.fillStyle(0x00f5ff);
-        g.fillRect(0, 0, 32, 40);
         
-        // 足元(orange)
-        g.fillStyle(0xff6b35);
-        g.fillRect(0, 40, 32, 8);
-
-        // 目（黒）                                    
-        g.fillStyle(0x000000);                           
-        g.fillRect(8, 10, 6, 6);
-        g.fillRect(18, 10, 6, 6);                        
-        
-        // 描画内容をテクスチャとして登録（32×48 px）    
-        g.generateTexture('player-tex', 32, 48);
-
-        g.destroy();
 
         const g2 = this.make.graphics(); 
         // hot-pink 矩形                                 

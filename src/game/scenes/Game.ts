@@ -4,7 +4,7 @@ import { Scene,Physics,Math as PhaserMath } from 'phaser';
 export class Game extends Scene
 {
     // --- クラスフィールド ---
-    private player: Phaser.Physics.Arcade.Image;
+    private player: Phaser.Physics.Arcade.Sprite;
     private ground: Phaser.GameObjects.TileSprite;
     private obstacles: Phaser.Physics.Arcade.Group;
     private scoreText: Phaser.GameObjects.Text;
@@ -43,11 +43,36 @@ export class Game extends Scene
                                 .refreshBody();
 
         // --- プレイヤー ---
-        this.player = this.physics.add.image(150,640, "player-tex").setDepth(20);
+        // sprite を使用（Image ではアニメーション不可）
+        // setDisplaySize: 表示サイズ、setBodySize: 当たり判定（表示より小さくして寛容に）
+        this.player = this.physics.add.sprite(150,640, "player")
+                    .setDepth(20)
+                    .setDisplaySize(200,200)
+                    .setBodySize(100,100);
         this.player.setCollideWorldBounds(true);
 
         // --- コライダー設定 ---
         this.physics.add.collider(this.player, groundHitBox);
+
+        // 走りアニメ（フレーム 0-4 と 22-35 が走り、5-21 はジャンプのため非連続指定）
+        this.anims.create({
+            key: "run",
+            frames: this.anims.generateFrameNumbers("player", {
+                frames:[0,1,2,3,4,22,23,24,25,26,27,28,
+  29,30,31,32,33,34,35]
+            }),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.player.anims.play("run");
+
+        // ジャンプアニメ（フレーム 5-21、1回再生のみ）
+        this.anims.create({
+            key: 'jump',
+            frames: this.anims.generateFrameNumbers('player', { start: 5, end: 21 }),
+            frameRate: 12,
+            repeat: 0
+        });
 
         // --- 障害物グループ（最大10個を使い回す）---
         this.obstacles = this.physics.add.group({
@@ -100,6 +125,14 @@ export class Game extends Scene
                 this.obstacles.killAndHide(obs);
             }
         });
+
+        // 着地したら走りアニメに戻す
+        const body = this.player.body as Physics.Arcade.Body;
+        if(body.blocked.down) {
+            if(this.player.anims.currentAnim?.key !== "run") {
+                this.player.anims.play("run", true);
+            }
+        }
     }
 
     // ジャンプ（接地中のみ・シングルジャンプ）
@@ -108,16 +141,8 @@ export class Game extends Scene
 
         const body = this.player.body as Physics.Arcade.Body;
         if(!body.blocked.down) return;  // 空中では不可
-        body.setVelocityY(-500);        // ← ジャンプ力（絶対値を小さくすると低くなる）
-
-        // スカッシュ＆ストレッチtween
-        this.tweens.add({
-            targets: this.player,
-            scaleX: 0.7,
-            scaleY: 1.3,
-            duration: 80,
-            yoyo: true
-        });
+        body.setVelocityY(-500);      // ← ジャンプ力（絶対値を小さくすると低くなる）
+        this.player.anims.play('jump'); 
     }
 
     // 障害物をスポーン
