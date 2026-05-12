@@ -19,6 +19,7 @@ export class GameOver extends Scene
 
         const W = this.scale.width;
         const H = this.scale.height;
+        const fs = Math.min(H / 768, 1); // フォントスケール（スマホ横画面対応）
 
         // 背景（ゲームと同じ）
         const bgScale = H / 768;
@@ -39,7 +40,7 @@ export class GameOver extends Scene
         // "GAME OVER" タイトル
         const gameOverText = this.add.text(W/2, -100, 'GAME OVER', {
             fontFamily: 'Tsukimi Rounded',
-            fontSize: 80,
+            fontSize: Math.round(80 * fs),
             color: '#ffffff',
             stroke: '#ffb3b3',
             strokeThickness: 10,
@@ -61,21 +62,21 @@ export class GameOver extends Scene
 
         this.add.text(W/2, H * 0.46, `SCORE: ${finalScore}`, {
             fontFamily: 'Tsukimi Rounded',
-            fontSize: 36,
+            fontSize: Math.round(36 * fs),
             color: '#ffd700'
         }).setOrigin(0.5).setDepth(10);
 
         const bestScore = isNewRecord ? finalScore : prevBest;
         this.add.text(W/2, H * 0.555, `BEST: ${bestScore}`, {
             fontFamily: 'Tsukimi Rounded',
-            fontSize: 28,
+            fontSize: Math.round(28 * fs),
             color: '#5a4a3a'
         }).setOrigin(0.5).setDepth(10);
 
         if (isNewRecord) {
             const newRecordText = this.add.text(W/2, H * 0.638, 'NEW RECORD!', {
                 fontFamily: 'Tsukimi Rounded',
-                fontSize: 24,
+                fontSize: Math.round(24 * fs),
                 color: '#ffffff',
                 stroke: '#B5FBDF',
                 strokeThickness: 6
@@ -93,7 +94,7 @@ export class GameOver extends Scene
         this.time.delayedCall(800, () => {
             const restartText = this.add.text(W/2, H * 0.715, 'PRESS SPACE TO RESTART', {
                 fontFamily: 'Tsukimi Rounded',
-                fontSize: 22,
+                fontSize: Math.round(22 * fs),
                 color: '#5a4a3a'
             }).setOrigin(0.5).setDepth(10);
 
