@@ -26,24 +26,29 @@ export class Game extends Scene
         this.speed = 300;
         this.isAlive = true;
 
+        const W = this.scale.width;
+        const H = this.scale.height;
+        const GROUND_Y = H - 66;
+
         // --- 背景（tileSprite でループスクロール）---
-        this.bg = this.add.tileSprite(512, 384, 1024, 768,'bg').setDepth(0);
+        const bgScale = H / 768;
+        this.bg = this.add.tileSprite(W/2, H/2, W, H,'bg').setDepth(0).setTileScale(bgScale, bgScale);
 
 
         // --- 地面（見た目・スクロールする）---
-        this.ground = this.add.tileSprite(512, 734, 1024, 68,"ground-tex")
+        this.ground = this.add.tileSprite(W/2, H - 34, W, 68,"ground-tex")
                     .setDepth(5);
 
         // --- 地面コライダー（透明・プレイヤーが乗る床）---
-        const groundHitBox = this.physics.add.staticImage(512, 702, "ground-hitbox-tex")
-                                .setDisplaySize(1024,4)
+        const groundHitBox = this.physics.add.staticImage(W/2, GROUND_Y, "ground-hitbox-tex")
+                                .setDisplaySize(W,4)
                                 .setAlpha(0)
                                 .refreshBody();
 
         // --- プレイヤー ---
         // sprite を使用（Image ではアニメーション不可）
         // setDisplaySize: 表示サイズ、setBodySize: 当たり判定（表示より小さくして寛容に）
-        this.player = this.physics.add.sprite(150,640, "player")
+        this.player = this.physics.add.sprite(150, H - 128, "player")
                     .setDepth(20)
                     .setDisplaySize(200,200)
                     .setBodySize(100,100);
@@ -83,7 +88,7 @@ export class Game extends Scene
         });
 
         // --- スコアUI（右上）---
-        this.scoreText = this.add.text(980, 20, "SCORE:0",{
+        this.scoreText = this.add.text(W - 44, 20, "SCORE:0",{
             fontFamily: "Arial Black",
             fontSize: 24,
             color: "#ffd700"
@@ -156,7 +161,8 @@ export class Game extends Scene
         const v = variants[PhaserMath.Between(0,2)];
 
         // Y: 地面(702) から画像の中心を計算。+v.h*0.4 で地面に接するよう微調整
-        const obs = this.obstacles.get(1100, 702-v.h /2 + v.h * 0.4, "obstacle") as Physics.Arcade.Image;
+        const GROUND_Y = this.scale.height - 66;
+        const obs = this.obstacles.get(this.scale.width + 100, GROUND_Y - v.h/2 + v.h * 0.4, "obstacle") as Physics.Arcade.Image;
         if(!obs) return;
 
         obs.setActive(true).setVisible(true);

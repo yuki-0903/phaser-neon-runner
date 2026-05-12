@@ -11,11 +11,14 @@ export class MainMenu extends Scene
 
     create ()
     {
+        const W = this.scale.width;
+        const H = this.scale.height;
+
         const bg = this.add.graphics();
         bg.fillStyle(0x0a0a1a);
-        bg.fillRect(0, 0, 1024, 768);
+        bg.fillRect(0, 0, W, H);
 
-        const titleText = this.add.text(512, -100, 'NEON RUNNER', {                    
+        const titleText = this.add.text(W/2, -100, 'NEON RUNNER', {
             fontFamily: 'Arial Black',                              
             fontSize: 72,                                          
             color: '#00f5ff',                                          
@@ -24,28 +27,28 @@ export class MainMenu extends Scene
         }).setOrigin(0.5).setAlpha(0.4);
 
         this.tweens.add({
-            targets: titleText,                                     
-            y: 200,     
-            duration: 800,                                        
+            targets: titleText,
+            y: H * 0.26,
+            duration: 800,
             ease: 'Bounce.Out'
-        }); 
+        });
 
-        const titleText2 = this.add.text(512, -100, 'NEON RUNNER', {
-            fontFamily: 'Arial Black',                            
+        const titleText2 = this.add.text(W/2, -100, 'NEON RUNNER', {
+            fontFamily: 'Arial Black',
             fontSize: 72,
-            color: '#ffffff',                                       
+            color: '#ffffff',
             stroke: '#00f5ff',
-            strokeThickness: 4                                      
+            strokeThickness: 4
         }).setOrigin(0.5);
 
         this.tweens.add({
-            targets: titleText2,                                     
-            y: 200,     
-            duration: 800,                                        
+            targets: titleText2,
+            y: H * 0.26,
+            duration: 800,
             ease: 'Bounce.Out'
-        }); 
+        });
 
-        const startText = this.add.text(512, 450, "PRESS SPACE OR TAP TO PLAY",{
+        const startText = this.add.text(W/2, H * 0.585, "PRESS SPACE OR TAP TO PLAY",{
             fontFamily: "Arial",
             fontSize: 24,
             color: "#ffffff"
@@ -71,7 +74,7 @@ export class MainMenu extends Scene
 
          const best = localStorage.getItem("runner-highscore");
         if(best) {
-            this.add.text(512, 500, `BEST: ${best}`, {
+            this.add.text(W/2, H * 0.65, `BEST: ${best}`, {
                 fontFamily: "Arial",
                 fontSize: 20,
                 color: "#ffd700"

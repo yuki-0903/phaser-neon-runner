@@ -18,14 +18,17 @@ export class GameOver extends Scene
             localStorage.setItem("runner-highscore", String(finalScore));
         }
 
+        const W = this.scale.width;
+        const H = this.scale.height;
+
         const overlay = this.add.graphics();
         overlay.fillStyle(0x000000, 0.7);
-        overlay.fillRect(0,0,1024,768);
+        overlay.fillRect(0,0,W,H);
 
         overlay.lineStyle(3, 0x00f5ff);
-        overlay.strokeRect(50,150,924,400);
+        overlay.strokeRect(W*0.05, H*0.2, W*0.9, H*0.52);
 
-        const gameOverText = this.add.text(512,-100,"GAME OVER", {
+        const gameOverText = this.add.text(W/2,-100,"GAME OVER", {
             fontFamily: "Arial Black",
             fontSize: 80,
             color: "#ff2d6b",
@@ -35,26 +38,26 @@ export class GameOver extends Scene
 
         this.tweens.add({
             targets: gameOverText,
-            y: 280,
+            y: H * 0.36,
             duration: 600,
             ease: "Bounce.Out"
         })
 
-        this.add.text(512, 370, `SCORE: ${finalScore}`, {
+        this.add.text(W/2, H * 0.48, `SCORE: ${finalScore}`, {
             fontFamily: "Arial Black",
             fontSize: 36,
             color: "#ffd700"
         }).setOrigin(0.5);
 
         const bestScore = isNewRecord ? finalScore: prevBest;
-        this.add.text(512, 420, `BEST: ${bestScore}`, {
+        this.add.text(W/2, H * 0.547, `BEST: ${bestScore}`, {
             fontFamily: "Arial",
             fontSize: 28,
             color: "#ffffff"
         }).setOrigin(0.5);
 
         if (isNewRecord) {                                        
-            const newRecordText = this.add.text(512, 470, 'NEW RECORD!', {                                                 
+            const newRecordText = this.add.text(W/2, H * 0.612, 'NEW RECORD!', {                                                 
                 fontFamily: 'Arial Black',                          
                 fontSize: 24,                                       
                 color: '#00f5ff'                                  
@@ -70,7 +73,7 @@ export class GameOver extends Scene
         }
 
         this.time.delayedCall(800, () => {
-            const restartText = this.add.text(512, 520, "PRESS SPACE TO RESTART", {
+            const restartText = this.add.text(W/2, H * 0.677, "PRESS SPACE TO RESTART", {
                 fontFamily: "Arial",
                 fontSize: 22,
                 color: "#ffffff"

@@ -15,6 +15,44 @@ body {
     align-items: center;
 }
 
+#rotate-device {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0a0a1a;
+    color: #00f5ff;
+    font-family: Arial Black, Arial, sans-serif;
+    font-size: 24px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+}
+
+#small-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0a0a1a;
+    color: #00f5ff;
+    font-family: Arial Black, Arial, sans-serif;
+    font-size: 24px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+}
+
+@media (orientation: portrait) {
+    #rotate-device { display: flex; }
+    #root { display: none; }
+}
+
+@media (max-width: 799px) and (orientation: landscape) and (pointer: fine) {
+    #small-screen { display: flex; }
+    #root { display: none; }
+}
+
 .spritePosition {
     margin: 10px 0 0 10px;
     font-size: 0.8em;
