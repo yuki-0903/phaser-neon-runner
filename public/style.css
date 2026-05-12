@@ -35,9 +35,9 @@ body {
 }
 
 #rotate-device .rotate-icon {
-    font-size: 64px;
-    -webkit-text-stroke: 0;
-    text-shadow: none;
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
     animation: rotate-hint 1.2s ease-in-out infinite alternate;
 }
 
