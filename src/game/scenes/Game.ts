@@ -149,23 +149,25 @@ export class Game extends Scene
 
         // 3種類のサイズをランダムに選択
         const variants = [
-            {w:32, h: 48},
-            {w:48, h: 64},
-            {w:64, h:40}
+            {w:100, h:100},   
+            {w:70, h:70},                          
+            {w:120, h:120}
         ];
         const v = variants[PhaserMath.Between(0,2)];
 
-        const obs = this.obstacles.get(1100, 702-v.h /2, "obstacle-tex") as Physics.Arcade.Image;
+        // Y: 地面(702) から画像の中心を計算。+v.h*0.4 で地面に接するよう微調整
+        const obs = this.obstacles.get(1100, 702-v.h /2 + v.h * 0.4, "obstacle") as Physics.Arcade.Image;
         if(!obs) return;
 
         obs.setActive(true).setVisible(true);
-        obs.setDisplaySize(v.w,v.h);
+        // depth 10: 地面(5)より前、プレイヤー(20)より後ろ
+        obs.setDisplaySize(v.w,v.h).setDepth(10);
         obs.setImmovable(true);
         (obs.body as Physics.Arcade.Body).allowGravity = false;
         (obs.body as Physics.Arcade.Body).setVelocityX(-this.speed);
 
-        // 当たり判定を少し小さくして寛容にする
-        obs.body!.setSize(v.w - 8, v.h - 4);
+        // 当たり判定を表示サイズの80%に縮小して寛容にする
+        obs.body!.setSize(v.w - v.w * 0.2, v.h - v.h * 0.2);
 
         // 速度に応じて次の出現間隔を短くする
         const speedFactor = (this.speed - 300) / 500;

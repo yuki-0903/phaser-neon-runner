@@ -14,22 +14,12 @@ export class Preloader extends Scene
         });
         // 背景画像（1344×768px、tileSprite でループスクロール）
         this.load.image('bg', 'assets/bg/bg.png');
+
+        // 障害物（切り株）画像
+        this.load.image('obstacle','assets/obstacle/stump.webp');
     }
     create ()
-    {
-        
-
-        const g2 = this.make.graphics(); 
-        // hot-pink 矩形                                 
-        g2.fillStyle(0xff2d6b);                          
-        g2.fillRect(0, 0, 32, 64);                       
-                                                        
-        // ハイライト（白を薄く左端に）                  
-        g2.fillStyle(0xffffff, 0.3);
-        g2.fillRect(0, 0, 8, 64);                        
-                                                        
-        g2.generateTexture('obstacle-tex', 32, 64);    
-        g2.destroy();  
+    { 
 
         // ground-tex: 64×32 ダークタイル + cyan上端ライン
         const g3 = this.make.graphics();
