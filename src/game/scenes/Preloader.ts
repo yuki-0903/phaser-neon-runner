@@ -46,7 +46,24 @@ export class Preloader extends Scene
         g4.fillRect(0, 0, 4, 4);
                                                         
         g4.generateTexture('ground-hitbox-tex', 4, 4);
-        g4.destroy(); 
+        g4.destroy();
+
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNumbers('player', {
+                frames: [0,1,2,3,4,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
+            }),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'jump',
+            frames: this.anims.generateFrameNumbers('player', { start: 5, end: 21 }),
+            frameRate: 12,
+            repeat: 0
+        });
+
         this.scene.start('MainMenu');
     }
 }

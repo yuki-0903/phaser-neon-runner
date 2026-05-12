@@ -9,6 +9,8 @@ export class Boot extends Scene
 
     create ()
     {
-        this.scene.start('Preloader');
+        document.fonts.load('700 16px "Tsukimi Rounded"').then(() => {
+            this.scene.start('Preloader');
+        });
     }
 }

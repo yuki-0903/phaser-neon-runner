@@ -57,25 +57,7 @@ export class Game extends Scene
         // --- コライダー設定 ---
         this.physics.add.collider(this.player, groundHitBox);
 
-        // 走りアニメ（フレーム 0-4 と 22-35 が走り、5-21 はジャンプのため非連続指定）
-        this.anims.create({
-            key: "run",
-            frames: this.anims.generateFrameNumbers("player", {
-                frames:[0,1,2,3,4,22,23,24,25,26,27,28,
-  29,30,31,32,33,34,35]
-            }),
-            frameRate: 12,
-            repeat: -1
-        });
         this.player.anims.play("run");
-
-        // ジャンプアニメ（フレーム 5-21、1回再生のみ）
-        this.anims.create({
-            key: 'jump',
-            frames: this.anims.generateFrameNumbers('player', { start: 5, end: 21 }),
-            frameRate: 12,
-            repeat: 0
-        });
 
         // --- 障害物グループ（最大10個を使い回す）---
         this.obstacles = this.physics.add.group({
