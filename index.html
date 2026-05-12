@@ -26,7 +26,6 @@
 </head>
 
 <body>
-    <span aria-hidden="true" style="font-family:'Tsukimi Rounded';visibility:hidden;position:fixed;font-size:0">x</span>
     <div id="rotate-device">
         <img class="rotate-icon" src="/assets/rotate-icon.webp" alt="" />
         <p>横画面にしてください</p>
@@ -34,6 +33,9 @@
     <div id="small-screen"><p>ウィンドウを広げてください<br>（最小幅 800px）</p></div>
     <div id="root"></div>
     <script>
+        // Tsukimi Rounded を確実に読み込む
+        document.fonts.load('16px "Tsukimi Rounded"');
+
         // スマホで縦→横に変わった時だけリロード
         if ('ontouchstart' in window) {
             window.addEventListener('orientationchange', function () {
