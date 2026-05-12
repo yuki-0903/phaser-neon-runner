@@ -27,24 +27,10 @@
 </head>
 
 <body>
-    <div id="rotate-device">
-        <img class="rotate-icon" src="/assets/rotate-icon.webp" alt="" />
-        <p>よこがめんにしてください</p>
-    </div>
-    <div id="small-screen"><p>ウィンドウを広げてください<br>（最小幅 800px）</p></div>
-    <div id="root"></div>
+<div id="root"></div>
     <script>
         // Tsukimi Rounded を確実に読み込む
         document.fonts.load('16px "Tsukimi Rounded"');
-
-        // スマホで縦→横に変わった時だけリロード
-        if ('ontouchstart' in window) {
-            window.addEventListener('orientationchange', function () {
-                setTimeout(function () {
-                    if (window.innerWidth > window.innerHeight) location.reload();
-                }, 300);
-            });
-        }
     </script>
     <script type="module" src="/src/main.tsx"></script>
 

@@ -20,8 +20,9 @@ export class MainMenu extends Scene
 
     create ()
     {
-        const W = this.scale.width;
-        const H = this.scale.height;
+        const isPortrait = this.scale.width < this.scale.height;
+        const W = isPortrait ? this.scale.height : this.scale.width;
+        const H = isPortrait ? this.scale.width : this.scale.height;
         const GROUND_Y = H - GROUND_OFFSET;
 
         // 背景（スクロール用に保持）
@@ -159,8 +160,9 @@ export class MainMenu extends Scene
 
     private spawnObstacle(): void
     {
-        const W = this.scale.width;
-        const H = this.scale.height;
+        const isPortrait = this.scale.width < this.scale.height;
+        const W = isPortrait ? this.scale.height : this.scale.width;
+        const H = isPortrait ? this.scale.width : this.scale.height;
         const GROUND_Y = H - GROUND_OFFSET;
         const size = 100;
 

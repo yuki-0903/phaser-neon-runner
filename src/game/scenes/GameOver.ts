@@ -17,8 +17,9 @@ export class GameOver extends Scene
             localStorage.setItem('runner-highscore', String(finalScore));
         }
 
-        const W = this.scale.width;
-        const H = this.scale.height;
+        const isPortrait = this.scale.width < this.scale.height;
+        const W = isPortrait ? this.scale.height : this.scale.width;
+        const H = isPortrait ? this.scale.width : this.scale.height;
         const fs = Math.min(H / 768, 1); // フォントスケール（スマホ横画面対応）
 
         // 背景（ゲームと同じ）

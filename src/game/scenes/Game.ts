@@ -26,8 +26,9 @@ export class Game extends Scene
         this.speed = 300;
         this.isAlive = true;
 
-        const W = this.scale.width;
-        const H = this.scale.height;
+        const isPortrait = this.scale.width < this.scale.height;
+        const W = isPortrait ? this.scale.height : this.scale.width;
+        const H = isPortrait ? this.scale.width : this.scale.height;
         const GROUND_Y = H - 66;
 
         // --- 背景（tileSprite でループスクロール）---
@@ -143,8 +144,11 @@ export class Game extends Scene
         const v = variants[PhaserMath.Between(0,2)];
 
         // Y: 地面(702) から画像の中心を計算。+v.h*0.4 で地面に接するよう微調整
-        const GROUND_Y = this.scale.height - 66;
-        const obs = this.obstacles.get(this.scale.width + 100, GROUND_Y - v.h/2 + v.h * 0.4, "obstacle") as Physics.Arcade.Image;
+        const isPortrait2 = this.scale.width < this.scale.height;
+        const scaleW = isPortrait2 ? this.scale.height : this.scale.width;
+        const scaleH = isPortrait2 ? this.scale.width : this.scale.height;
+        const GROUND_Y = scaleH - 66;
+        const obs = this.obstacles.get(scaleW + 100, GROUND_Y - v.h/2 + v.h * 0.4, "obstacle") as Physics.Arcade.Image;
         if(!obs) return;
 
         obs.setActive(true).setVisible(true);
