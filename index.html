@@ -23,15 +23,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Tsukimi+Rounded&display=swap" rel="stylesheet">
     <title>Fluffy Runner</title>
-  <script type="module" crossorigin src="./assets/index-h2RX2kZd.js"></script>
+  <script type="module" crossorigin src="./assets/index-IPqAKuDX.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/phaser-BW5PCTcB.js">
 </head>
 
 <body>
-    <div id="rotate-device"><p>横画面にしてください</p></div>
+    <div id="rotate-device">
+        <img class="rotate-icon" src="/assets/rotate-icon.webp" alt="" />
+        <p>よこがめんにしてください</p>
+    </div>
     <div id="small-screen"><p>ウィンドウを広げてください<br>（最小幅 800px）</p></div>
     <div id="root"></div>
     <script>
+        // Tsukimi Rounded を確実に読み込む
+        document.fonts.load('16px "Tsukimi Rounded"');
+
         // スマホで縦→横に変わった時だけリロード
         if ('ontouchstart' in window) {
             window.addEventListener('orientationchange', function () {
