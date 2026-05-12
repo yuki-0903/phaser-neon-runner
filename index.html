@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="./assets/fav.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen" />
+    <meta name="apple-mobile-web-app-title" content="Fluffy Runner" />
+    <link rel="apple-touch-icon" href="./assets/icon-192.png" />
     <meta name="description" content="ふわふわキャラクターが走るカジュアルエンドレスランナーゲーム" />
     <meta property="og:title" content="Fluffy Runner" />
     <meta property="og:description" content="ふわふわキャラクターが走るカジュアルエンドレスランナーゲーム" />
@@ -26,6 +31,16 @@
     <div id="rotate-device"><p>横画面にしてください</p></div>
     <div id="small-screen"><p>ウィンドウを広げてください<br>（最小幅 800px）</p></div>
     <div id="root"></div>
+    <script>
+        // スマホで縦→横に変わった時だけリロード
+        if ('ontouchstart' in window) {
+            window.addEventListener('orientationchange', function () {
+                setTimeout(function () {
+                    if (window.innerWidth > window.innerHeight) location.reload();
+                }, 300);
+            });
+        }
+    </script>
 
 </body>
 </html>
