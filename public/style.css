@@ -37,12 +37,14 @@ body {
     width: 96px;
     height: 96px;
     object-fit: contain;
-    animation: rotate-hint 1.2s ease-in-out infinite alternate;
+    animation: rotate-hint 2s ease-in-out infinite;
 }
 
 @keyframes rotate-hint {
-    from { transform: rotate(-30deg); }
-    to   { transform: rotate(30deg); }
+    0%   { transform: rotate(0deg); }
+    40%  { transform: rotate(-90deg); }
+    60%  { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
 }
 
 #small-screen {
