@@ -37,7 +37,7 @@ body {
     width: 96px;
     height: 96px;
     object-fit: contain;
-    animation: rotate-hint 2s ease-in-out infinite;
+    animation: rotate-hint 3s ease-in-out infinite;
 }
 
 @keyframes rotate-hint {
